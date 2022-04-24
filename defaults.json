@@ -1,0 +1,9 @@
+{
+  "front_url": "http://localhost:8080",
+  "back_url": "https://localhost:7229",
+  "database_address": "localhost",
+  "database_user": "root",
+  "database_password": "",
+  "database_name": "io",
+  "headless": true
+}
