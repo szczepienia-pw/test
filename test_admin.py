@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 from config import Config
 from utils import Mailbox
+from utils import wait_til_loaded
 
 
 class AdminTests(unittest.TestCase):
@@ -39,7 +40,7 @@ class AdminTests(unittest.TestCase):
         self.driver.find_elements(by=By.CSS_SELECTOR, value='.p-inputtext.p-component.w-full.w-full')[1].send_keys("password")
         self.driver.find_elements(by=By.CSS_SELECTOR, value='.p-button.p-component')[1].click()
 
-        time.sleep(1)  # wait for the changes in the browser to take place
+        wait_til_loaded(3, self.driver, '.p-button.p-component.p-button-text.p-button-plain')  # wait for the changes in the browser to take place
 
     def tearDown(self):
         self.cursor.close()
@@ -77,6 +78,8 @@ class AdminTests(unittest.TestCase):
         self.assertEqual(res[2], 'test@test.com')
 
     def test03_admin_edit_doctor(self):
+        time.sleep(1)
+
         _id = self.get_last_doctors_id()
 
         # edit the last doctor
@@ -114,6 +117,8 @@ class AdminTests(unittest.TestCase):
         self.assertEqual(res[2], 'test@test.com')
 
     def test04_admin_delete_doctor(self):
+        time.sleep(1)
+
         _id = self.get_last_doctors_id()
 
         # select the last doctor
@@ -151,6 +156,8 @@ class AdminTests(unittest.TestCase):
 
         # save settings
         self.driver.find_elements(by=By.CSS_SELECTOR, value='.p-button.p-component')[-1].click()
+
+        time.sleep(1)
 
         # verify
         self.cursor.execute("SELECT value FROM Settings")

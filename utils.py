@@ -1,3 +1,11 @@
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
+
+import time
+
+
 class Bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -25,3 +33,12 @@ class Mailbox:
     @classmethod
     def info(cls, msg):
         print(f"{Bcolors.BOLD}{Bcolors.WARNING}[INFO] {msg}{Bcolors.ENDC}")
+
+
+def wait_til_loaded(delay, browser, css_selector):
+    try:
+        _ = WebDriverWait(browser, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
+        Mailbox.debug("[wait_til_loaded] detected that page was successfully loaded")
+    except TimeoutException:
+        time.sleep(1)
+        Mailbox.debug("[wait_til_loaded] Timeout Exception fired")
